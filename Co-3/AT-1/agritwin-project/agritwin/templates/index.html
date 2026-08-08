@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriTwin | Digital Twin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #1b3a2b, #2d6a4f);
+            min-height: 100vh;
+            padding: 30px 15px;
+            color: #222;
+        }
+
+        .container { max-width: 950px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        header h1 { font-size: 2.3rem; margin-bottom: 6px; }
+        header p { opacity: 0.85; font-size: 0.95rem; }
+
+        .timestamp {
+            text-align: center;
+            color: #eaf5ea;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover { transform: translateY(-4px); }
+
+        .card .icon { font-size: 2.2rem; margin-bottom: 8px; }
+        .card .label { font-size: 0.85rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card .value { font-size: 1.9rem; font-weight: 700; color: #1b3a2b; margin-top: 4px; }
+
+        .status-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .status-card {
+            border-radius: 14px;
+            padding: 25px;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        }
+
+        .status-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-card .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .success { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+        .warning { background: linear-gradient(135deg, #f9a825, #fbc02d); }
+        .danger  { background: linear-gradient(135deg, #c62828, #ef5350); }
+
+        footer {
+            text-align: center;
+            margin-top: 35px;
+            color: #dfeee0;
+            font-size: 0.8rem;
+        }
+
+        .refresh-btn {
+            display: block;
+            margin: 25px auto 0;
+            padding: 10px 26px;
+            background: #ffffff;
+            color: #1b3a2b;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .refresh-btn:hover { background: #eaf5ea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌾 AgriTwin</h1>
+            <p>Digital Twin Platform for Precision Farming &amp; Crop Health Prediction</p>
+        </header>
+
+        <p class="timestamp">Last synced from field sensors: {{ farm_data.timestamp }}</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="icon">💧</div>
+                <div class="label">Soil Moisture</div>
+                <div class="value">{{ farm_data.soil_moisture }}%</div>
+            </div>
+            <div class="card">
+                <div class="icon">🌡️</div>
+                <div class="label">Temperature</div>
+                <div class="value">{{ farm_data.temperature }}°C</div>
+            </div>
+            <div class="card">
+                <div class="icon">💦</div>
+                <div class="label">Humidity</div>
+                <div class="value">{{ farm_data.humidity }}%</div>
+            </div>
+        </div>
+
+        <div class="status-section">
+            <div class="status-card {{ irrigation_level }}">
+                <h3>Irrigation Prediction</h3>
+                <div class="status-value">🚿 {{ irrigation_status }}</div>
+            </div>
+            <div class="status-card {{ health_level }}">
+                <h3>Crop Health Status</h3>
+                <div class="status-value">🌱 {{ health_status }}</div>
+            </div>
+        </div>
+
+        <form action="/" method="get">
+            <button class="refresh-btn" type="submit">🔄 Refresh Sensor Data</button>
+        </form>
+
+        <footer>
+            AgriTwin Mini Project &copy; 2026 | Simulated IoT Data (Digital Twin Demo)
+        </footer>
+    </div>
+</body>
+</html>
